@@ -1,1 +1,1 @@
-# wedther-service
+# weather-service
