@@ -1,4 +1,4 @@
-package com.fernoaga.weather_service.adapter.inbound.job;
+package com.fernoaga.weather_service.application.inbound.job;
 
 import java.util.Arrays;
 import java.util.List;

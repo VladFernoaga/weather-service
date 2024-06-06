@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fernoaga.weather_service.domain.model.CityTemperature;
-import com.fernoaga.weather_service.adapter.outbound.repository.CityTemperatureRepository;
-import com.fernoaga.weather_service.adapter.outbound.weatherdataprovider.WeatherDataFetchingService;
+import com.fernoaga.weather_service.application.outbound.repository.CityTemperatureRepository;
+import com.fernoaga.weather_service.application.outbound.weatherdataprovider.WeatherDataFetchingService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,7 +53,6 @@ public class WeatherDataLoaderService {
 
     private CityWeatherData getCityWeatherData(Map<String, Integer> citiesMap, String cityName) {
         var temp = fetchingService.getTemperature(citiesMap.get(cityName));
-        System.out.println(cityName + " " + temp);
         log.debug(cityName + " " + temp);
         return new CityWeatherData(cityName, temp);
     }

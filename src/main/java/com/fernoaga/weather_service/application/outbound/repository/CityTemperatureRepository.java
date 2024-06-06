@@ -1,4 +1,4 @@
-package com.fernoaga.weather_service.adapter.outbound.repository;
+package com.fernoaga.weather_service.application.outbound.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
