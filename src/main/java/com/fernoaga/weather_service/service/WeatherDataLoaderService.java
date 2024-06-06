@@ -1,4 +1,4 @@
-package com.fernoaga.weather_service.domain.service;
+package com.fernoaga.weather_service.service;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fernoaga.weather_service.domain.model.CityTemperature;
-import com.fernoaga.weather_service.application.outbound.repository.CityTemperatureRepository;
-import com.fernoaga.weather_service.application.outbound.weatherdataprovider.WeatherDataFetchingService;
+import com.fernoaga.weather_service.model.CityTemperature;
+import com.fernoaga.weather_service.outbound.outbound.repository.CityTemperatureRepository;
+import com.fernoaga.weather_service.outbound.outbound.weatherdataprovider.WeatherDataFetchingService;
 
 import lombok.extern.slf4j.Slf4j;
 

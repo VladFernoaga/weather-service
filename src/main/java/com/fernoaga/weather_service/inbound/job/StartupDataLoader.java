@@ -1,4 +1,4 @@
-package com.fernoaga.weather_service.application.inbound.job;
+package com.fernoaga.weather_service.inbound.job;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.fernoaga.weather_service.domain.service.WeatherDataLoaderService;
+import com.fernoaga.weather_service.service.WeatherDataLoaderService;
 
 
 @Component

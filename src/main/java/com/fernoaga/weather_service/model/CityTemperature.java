@@ -1,4 +1,4 @@
-package com.fernoaga.weather_service.domain.model;
+package com.fernoaga.weather_service.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

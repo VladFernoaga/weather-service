@@ -1,4 +1,4 @@
-package com.fernoaga.weather_service.application.outbound.weatherdataprovider;
+package com.fernoaga.weather_service.outbound.outbound.weatherdataprovider;
 
 import java.util.Map;
 
