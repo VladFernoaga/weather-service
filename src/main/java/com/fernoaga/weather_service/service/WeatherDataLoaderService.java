@@ -64,7 +64,7 @@ public class WeatherDataLoaderService {
     }
 
     private CityWeatherData getCityWeatherData(int openWeatherId, String cityName) {
-        var temp = fetchingService.getTemperature(openWeatherId);
+        var temp = fetchingService.getTemperature(openWeatherId, cityName);
         log.debug(cityName + " " + temp);
         return new CityWeatherData(cityName, temp, openWeatherId);
     }

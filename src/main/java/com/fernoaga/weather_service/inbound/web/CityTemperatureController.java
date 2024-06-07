@@ -15,6 +15,8 @@ import com.fernoaga.weather_service.model.SortType;
 import com.fernoaga.weather_service.service.CityTemperatureService;
 import com.fernoaga.weather_service.service.WeatherDataLoaderService;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @RestController
 @RequestMapping("/api/city-temperatures")
 public class CityTemperatureController {
@@ -26,7 +28,8 @@ public class CityTemperatureController {
     private WeatherDataLoaderService weatherDataLoaderService;
 
     @GetMapping
-    public PagedTemperaturesDto getAllTemperatures(@RequestParam int page, @RequestParam int size, @RequestParam String sortType) {
+    public PagedTemperaturesDto getAllTemperatures(@Schema(description = "Page number (>= 0)") @RequestParam int page, @Schema(description = "Page size (>= 1)") @RequestParam int size,
+      @Schema(description = "Accepted sort types [ NAME_ASC, NAME_DESC]") @RequestParam String sortType) {
         return cityTemperatureService.getAllTemperatures(validatePage(page), validateSize(size), toSortType(sortType));
     }
 
@@ -37,12 +40,13 @@ public class CityTemperatureController {
 
     @DeleteMapping
     public void deleteAllTemperatures() {
-      cityTemperatureService.deleteAllData();
+        cityTemperatureService.deleteAllData();
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
+        return ResponseEntity.badRequest()
+          .body(ex.getMessage());
     }
 
     private int validatePage(int page) {

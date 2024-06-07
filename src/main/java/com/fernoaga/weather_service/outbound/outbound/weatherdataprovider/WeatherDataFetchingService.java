@@ -18,7 +18,7 @@ public class WeatherDataFetchingService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public Double getTemperature(Integer cityId) {
+    public Double getTemperature(Integer cityId, String cityName) {
         try {
             String url = OPEN_WEATHER_BASE_URL + "id=" + cityId + "&appid=" + apiKey + "&units=metric";
             ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
@@ -26,7 +26,7 @@ public class WeatherDataFetchingService {
             Map<String, Object> main = (Map<String, Object>) body.get("main");
             return (Double) main.get("temp");
         } catch (Exception e) {
-            log.error("Cannot retrieve temperature for cityId: " + cityId, e);
+            log.error("Cannot retrieve temperature for cityName: " + cityName, e);
             return -9999d;
         }
     }
