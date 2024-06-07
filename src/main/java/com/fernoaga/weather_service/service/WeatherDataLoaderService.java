@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fernoaga.weather_service.config.Constants;
 import com.fernoaga.weather_service.model.CityTemperature;
 import com.fernoaga.weather_service.outbound.outbound.repository.CityTemperatureRepository;
 import com.fernoaga.weather_service.outbound.outbound.weatherdataprovider.WeatherDataFetchingService;
@@ -37,24 +38,35 @@ public class WeatherDataLoaderService {
         cityTemperatureRepository.deleteAll();
 
         cityWeatherData.stream()
-          .map(cityData -> CityTemperature.builder()
-            .cityName(cityData.cityName)
-            .temperature(cityData.temperature)
-            .build())
+          .map(cityData -> new CityTemperature(cityData.cityName, cityData.temperature, cityData.openWeatherId))
           .forEach(cityTemperature -> cityTemperatureRepository.save(cityTemperature));
     }
 
+    public void updateCitesTemperature() {
+        var allEntries = cityTemperatureRepository.findAll();
+        if(allEntries.isEmpty()){
+         loadCitiesWithCurrentWeatherData(Constants.DEFAULT_CITIES);
+        }else {
+            allEntries.parallelStream()
+              .forEach(cityTemperature -> {
+                  var newData = getCityWeatherData(cityTemperature.getOpenWeatherId(), cityTemperature.getCityName());
+                  cityTemperature.setTemperature(newData.temperature);
+                  cityTemperatureRepository.save(cityTemperature);
+              });
+        }
+    }
+
     private List<CityWeatherData> getCityWeatherData(Map<String, Integer> citiesMap) {
-        return citiesMap.keySet()
+        return citiesMap.entrySet()
           .stream()
-          .map(cityName -> getCityWeatherData(citiesMap, cityName))
+          .map(entry -> getCityWeatherData(entry.getValue(), entry.getKey()))
           .toList();
     }
 
-    private CityWeatherData getCityWeatherData(Map<String, Integer> citiesMap, String cityName) {
-        var temp = fetchingService.getTemperature(citiesMap.get(cityName));
+    private CityWeatherData getCityWeatherData(int openWeatherId, String cityName) {
+        var temp = fetchingService.getTemperature(openWeatherId);
         log.debug(cityName + " " + temp);
-        return new CityWeatherData(cityName, temp);
+        return new CityWeatherData(cityName, temp, openWeatherId);
     }
 
     private Map<String, Integer> mapCityIdForCities(List<String> cities) {
@@ -79,6 +91,6 @@ public class WeatherDataLoaderService {
         return cityIdMap;
     }
 
-    private record CityWeatherData(String cityName, Double temperature) {
+    private record CityWeatherData(String cityName, Double temperature, int openWeatherId) {
     }
 }
